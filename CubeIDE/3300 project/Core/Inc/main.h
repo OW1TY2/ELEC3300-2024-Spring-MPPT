@@ -59,10 +59,14 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define CURRENT_ADC_HIGH_Pin GPIO_PIN_0
-#define CURRENT_ADC_HIGH_GPIO_Port GPIOC
-#define CURRENT_ADC_LOW_Pin GPIO_PIN_3
-#define CURRENT_ADC_LOW_GPIO_Port GPIOC
+#define INPUT_CURRENT_ADC_Pin GPIO_PIN_0
+#define INPUT_CURRENT_ADC_GPIO_Port GPIOC
+#define INPUT_VOLTAGE_ADC_Pin GPIO_PIN_1
+#define INPUT_VOLTAGE_ADC_GPIO_Port GPIOC
+#define OUTPUT_VOLTAGE_ADC_Pin GPIO_PIN_2
+#define OUTPUT_VOLTAGE_ADC_GPIO_Port GPIOC
+#define OUTPUT_CURRENT_ADC_Pin GPIO_PIN_3
+#define OUTPUT_CURRENT_ADC_GPIO_Port GPIOC
 #define LCD_PWM_Pin GPIO_PIN_1
 #define LCD_PWM_GPIO_Port GPIOA
 #define SPI1_CS_Pin GPIO_PIN_4
