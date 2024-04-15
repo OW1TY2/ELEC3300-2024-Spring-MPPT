@@ -5,4 +5,4 @@
 ../Core/Src/main.c:342:13:MX_DMA_Init	1
 ../Core/Src/main.c:360:13:MX_GPIO_Init	1
 ../Core/Src/main.c:386:6:HAL_ADC_ConvCpltCallback	1
-../Core/Src/main.c:407:6:Error_Handler	1
+../Core/Src/main.c:396:6:Error_Handler	1

@@ -10,7 +10,7 @@
 
 int SOLAR_TRACKER_init(void);
 int SOLAR_TRACKER_calibrate(void);
-int SOLAR_TRACKER_track(uint32_t LDR_VAL_A, uint32_t LDR_VAL_B, uint32_t *MOTOR_OUTPUT_A, uint32_t *MOTOR_OUTPUT_B);
+int SOLAR_TRACKER_track(int32_t LDR_VAL_A, int32_t LDR_VAL_B, uint32_t *MOTOR_OUTPUT_A, uint32_t *MOTOR_OUTPUT_B);
 
 
 #endif // SOLAR_TRACKER_H

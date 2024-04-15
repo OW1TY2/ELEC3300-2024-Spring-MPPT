@@ -1,1 +1,2 @@
-../Core/Src/solar_tracker.c:18:5:SOLAR_TRACKER_track	3
+../Core/Src/solar_tracker.c:16:6:map	1
+../Core/Src/solar_tracker.c:22:5:SOLAR_TRACKER_track	3
