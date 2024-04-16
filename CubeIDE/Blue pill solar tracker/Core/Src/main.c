@@ -384,8 +384,8 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-  // SOLAR_TRACKER_track(LDR_val[0], LDR_val[1], &(TIM1->CCR1), &(TIM1->CCR2));
-  SOLAR_TRACKER_track(LDR_val[2], LDR_val[3], &(TIM1->CCR2), &(TIM1->CCR1));
+  SOLAR_TRACKER_track(LDR_val[1], LDR_val[0]/2, &(TIM1->CCR1), &(TIM1->CCR2));
+  SOLAR_TRACKER_track(LDR_val[3], LDR_val[2], &(TIM1->CCR3), &(TIM1->CCR4));
 }
 /* USER CODE END 4 */
 
