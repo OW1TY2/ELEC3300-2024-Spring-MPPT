@@ -59,8 +59,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define LCD_RST_Pin GPIO_PIN_2
-#define LCD_RST_GPIO_Port GPIOE
 #define CPT_RST_Pin GPIO_PIN_3
 #define CPT_RST_GPIO_Port GPIOE
 #define CPT_INT_Pin GPIO_PIN_4
@@ -75,8 +73,6 @@ void Error_Handler(void);
 #define OUTPUT_CURRENT_ADC_GPIO_Port GPIOC
 #define LCD_PWM_Pin GPIO_PIN_1
 #define LCD_PWM_GPIO_Port GPIOA
-#define SPI1_CS_Pin GPIO_PIN_4
-#define SPI1_CS_GPIO_Port GPIOA
 #define LDR1_ADC_Pin GPIO_PIN_5
 #define LDR1_ADC_GPIO_Port GPIOA
 #define PWM_PITCH_1_Pin GPIO_PIN_6
@@ -91,6 +87,8 @@ void Error_Handler(void);
 #define LDR4_ADC_GPIO_Port GPIOB
 #define MPPT_PWM_Pin GPIO_PIN_8
 #define MPPT_PWM_GPIO_Port GPIOA
+#define SPI1_CS_Pin GPIO_PIN_6
+#define SPI1_CS_GPIO_Port GPIOD
 #define CPT_SCL_Pin GPIO_PIN_6
 #define CPT_SCL_GPIO_Port GPIOB
 #define CPT_SDA_Pin GPIO_PIN_7
@@ -99,6 +97,8 @@ void Error_Handler(void);
 #define PWM_YAW_1_GPIO_Port GPIOB
 #define PWM_YAW_2_Pin GPIO_PIN_9
 #define PWM_YAW_2_GPIO_Port GPIOB
+#define LCD_RST_Pin GPIO_PIN_1
+#define LCD_RST_GPIO_Port GPIOE
 
 /* USER CODE BEGIN Private defines */
 
