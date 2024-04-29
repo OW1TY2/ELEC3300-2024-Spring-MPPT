@@ -2,6 +2,7 @@
     "files.associations": {
         "*.css": "tailwindcss",
         "solar_tracker.h": "c",
-        "stm32f1xx_hal.h": "c"
+        "stm32f1xx_hal.h": "c",
+        "mppt.h": "c"
     }
 }

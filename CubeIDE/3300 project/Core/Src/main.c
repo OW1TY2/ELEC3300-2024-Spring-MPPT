@@ -66,7 +66,6 @@ SRAM_HandleTypeDef hsram1;
 /* USER CODE BEGIN PV */
 volatile uint16_t adc_data[8];
 int16_t LDR_val[4];
-int max_output_voltage = 1727; // corresponds to 12.6V
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -143,15 +142,15 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
-  TIM1->CCR1 = 5;
+  // TIM1->CCR1 = 5;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 8);
     HAL_Delay(1);
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 8);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -995,6 +994,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   LDR_val[3] = adc_data[7];
   SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
   SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
+  MPPT_calculate(adc_data[1], adc_data[0], adc_data[2], adc_data[3], &(TIM1->CCR1));
 }
 /* USER CODE END 4 */
 
