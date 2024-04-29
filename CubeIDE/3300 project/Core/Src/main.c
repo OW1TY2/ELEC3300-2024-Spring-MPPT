@@ -65,6 +65,7 @@ SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 volatile uint16_t adc_data[8];
+int16_t LDR_val[4];
 int max_output_voltage = 1727; // corresponds to 12.6V
 /* USER CODE END PV */
 
@@ -988,8 +989,7 @@ static void MX_FSMC_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   asm("NOP");
-  int16_t LDR_val[4];
-  LDR_val[0] = adc_data[4];
+  LDR_val[0] = adc_data[4] * 1.63f;
   LDR_val[1] = adc_data[5];
   LDR_val[2] = adc_data[6];
   LDR_val[3] = adc_data[7];
