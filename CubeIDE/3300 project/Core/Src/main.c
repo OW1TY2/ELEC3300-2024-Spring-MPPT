@@ -142,7 +142,13 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_4);
+  HAL_TIM_OC_Start_IT(&htim1, TIM_CHANNEL_2);
   // TIM1->CCR1 = 5;
+  // int counter = 0;
+  // while (1) {
+  //   TIM1->CCR1 = counter++;
+  //   counter %= 30;
+  // }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -534,6 +540,10 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
+  if (HAL_TIM_OC_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig) != HAL_OK)
@@ -548,6 +558,13 @@ static void MX_TIM1_Init(void)
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_TIMING;
+  sConfigOC.Pulse = 90;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -995,6 +1012,11 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
   SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
   MPPT_calculate(adc_data[1], adc_data[0], adc_data[2], adc_data[3], &(TIM1->CCR1));
+}
+void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
+  if (htim->Instance == TIM1) {
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
+  }
 }
 /* USER CODE END 4 */
 
