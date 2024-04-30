@@ -41,11 +41,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  18 .debug_line   0001c626  00000000  00000000  00040b5d  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000a6ea5  00000000  00000000  0005d183  2**0
+ 19 .debug_str    000a6eb8  00000000  00000000  0005d183  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .debug_frame  00006414  00000000  00000000  00104028  2**2
+ 20 .debug_frame  00006414  00000000  00000000  0010403c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000007f  00000000  00000000  0010a43c  2**0
+ 21 .debug_line_str 0000007f  00000000  00000000  0010a450  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3712,13 +3712,13 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
  8001916:	61fb      	str	r3, [r7, #28]
  8001918:	69fb      	ldr	r3, [r7, #28]
     /* TIM1 interrupt Init */
-    HAL_NVIC_SetPriority(TIM1_UP_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(TIM1_CC_IRQn, 0, 0);
  800191a:	2200      	movs	r2, #0
  800191c:	2100      	movs	r1, #0
- 800191e:	2019      	movs	r0, #25
+ 800191e:	201b      	movs	r0, #27
  8001920:	f001 f931 	bl	8002b86 <HAL_NVIC_SetPriority>
-    HAL_NVIC_EnableIRQ(TIM1_UP_IRQn);
- 8001924:	2019      	movs	r0, #25
+    HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
+ 8001924:	201b      	movs	r0, #27
  8001926:	f001 f94a 	bl	8002bbe <HAL_NVIC_EnableIRQ>
   /* USER CODE BEGIN TIM5_MspInit 1 */
 
@@ -4465,24 +4465,24 @@ void ADC1_2_IRQHandler(void)
  8001d1a:	bf00      	nop
  8001d1c:	20000038 	.word	0x20000038
 
-08001d20 <TIM1_UP_IRQHandler>:
+08001d20 <TIM1_CC_IRQHandler>:
 
 /**
-  * @brief This function handles TIM1 update interrupt.
+  * @brief This function handles TIM1 capture compare interrupt.
   */
-void TIM1_UP_IRQHandler(void)
+void TIM1_CC_IRQHandler(void)
 {
  8001d20:	b580      	push	{r7, lr}
  8001d22:	af00      	add	r7, sp, #0
-  /* USER CODE BEGIN TIM1_UP_IRQn 0 */
+  /* USER CODE BEGIN TIM1_CC_IRQn 0 */
 
-  /* USER CODE END TIM1_UP_IRQn 0 */
+  /* USER CODE END TIM1_CC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
- 8001d24:	4802      	ldr	r0, [pc, #8]	; (8001d30 <TIM1_UP_IRQHandler+0x10>)
+ 8001d24:	4802      	ldr	r0, [pc, #8]	; (8001d30 <TIM1_CC_IRQHandler+0x10>)
  8001d26:	f003 fcd7 	bl	80056d8 <HAL_TIM_IRQHandler>
-  /* USER CODE BEGIN TIM1_UP_IRQn 1 */
+  /* USER CODE BEGIN TIM1_CC_IRQn 1 */
 
-  /* USER CODE END TIM1_UP_IRQn 1 */
+  /* USER CODE END TIM1_CC_IRQn 1 */
 }
  8001d2a:	bf00      	nop
  8001d2c:	bd80      	pop	{r7, pc}
