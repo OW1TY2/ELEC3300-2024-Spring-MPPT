@@ -1004,18 +1004,20 @@ static void MX_FSMC_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   asm("NOP");
-  LDR_val[0] = adc_data[4] * 1.63f;
-  LDR_val[1] = adc_data[5];
-  LDR_val[2] = adc_data[6];
-  LDR_val[3] = adc_data[7];
-  SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
-  SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
-  MPPT_calculate(adc_data[2], adc_data[1], adc_data[3], adc_data[0], &(TIM1->CCR1));
+  // LDR_val[0] = adc_data[4] * 1.63f;
+  // LDR_val[1] = adc_data[5];
+  // LDR_val[2] = adc_data[6];
+  // LDR_val[3] = adc_data[7];
+  // SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
+  // SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
+  // MPPT_calculate(adc_data[2], adc_data[1], adc_data[3], adc_data[0], &(TIM1->CCR1));
 }
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM1) {
+    HAL_NVIC_DisableIRQ(TIM1_CC_IRQn);
     HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 8);
+    // HAL_NVIC_EnableIRQ(TIM1_CC_IRQn);
   }
 }
 /* USER CODE END 4 */
