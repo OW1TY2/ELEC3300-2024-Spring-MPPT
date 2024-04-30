@@ -156,7 +156,6 @@ int main(void)
   while (1)
   {
     HAL_Delay(1);
-    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 8);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -245,9 +244,9 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_10;
+  sConfig.Channel = ADC_CHANNEL_13;
   sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -255,7 +254,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_11;
+  sConfig.Channel = ADC_CHANNEL_10;
   sConfig.Rank = ADC_REGULAR_RANK_2;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -264,7 +263,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_12;
+  sConfig.Channel = ADC_CHANNEL_11;
   sConfig.Rank = ADC_REGULAR_RANK_3;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -273,7 +272,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_13;
+  sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = ADC_REGULAR_RANK_4;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
@@ -562,7 +561,7 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 90;
+  sConfigOC.Pulse = 50;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
@@ -1011,11 +1010,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   LDR_val[3] = adc_data[7];
   SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
   SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
-  MPPT_calculate(adc_data[1], adc_data[0], adc_data[2], adc_data[3], &(TIM1->CCR1));
+  MPPT_calculate(adc_data[2], adc_data[1], adc_data[3], adc_data[0], &(TIM1->CCR1));
 }
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   if (htim->Instance == TIM1) {
     HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
+    HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 8);
   }
 }
 /* USER CODE END 4 */
@@ -1031,6 +1031,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+    HAL_Delay(1);
   }
   /* USER CODE END Error_Handler_Debug */
 }
