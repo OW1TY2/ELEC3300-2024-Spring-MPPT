@@ -8,7 +8,7 @@ int prev_CUR_OUT = 0;
 int prev_PWR_OUT = 0;
 uint32_t prev_PWM_OUTPUT[2] = {0, 0};
 int max_output_voltage = 1850; // corresponds to 12.6V
-uint32_t max_PWM_OUTPUT = 2;
+uint32_t max_PWM_OUTPUT = 30;
 
 void MPPT_calculate(int VOL_IN, int CUR_IN, int VOL_OUT, int CUR_OUT, uint32_t *PWM_OUTPUT) {
     // MPPT algorithm
