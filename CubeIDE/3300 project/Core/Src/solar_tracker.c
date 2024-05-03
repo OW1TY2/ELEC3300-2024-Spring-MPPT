@@ -7,7 +7,7 @@
 int diff_threshold = 800; // threshold for difference between LDR values
 // Motor
 int MOTOR_MIN = 0; // minimum motor speed
-volatile int MOTOR_MAX = 95; // maximum motor speed
+volatile int MOTOR_MAX = 65; // maximum motor speed
 
 // Initialize any global variables or data structures
 // int LDR_val[2][2] = {{0, 0}, {0, 0}}; // two pairs

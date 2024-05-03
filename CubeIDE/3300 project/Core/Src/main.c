@@ -61,11 +61,9 @@ TIM_HandleTypeDef htim5;
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
-SRAM_HandleTypeDef hsram1;
-
 /* USER CODE BEGIN PV */
 volatile uint16_t adc_data[14];
-int16_t CUR_IN;
+long long CUR_IN;
 int16_t LDR_val[4];
 /* USER CODE END PV */
 
@@ -73,7 +71,6 @@ int16_t LDR_val[4];
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
-static void MX_FSMC_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
@@ -124,7 +121,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_FSMC_Init();
   MX_I2C1_Init();
   MX_SPI1_Init();
   MX_TIM2_Init();
@@ -158,6 +154,8 @@ int main(void)
   {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 14);
     HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET);
+  
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -968,7 +966,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOE, CPT_RST_Pin|CPT_INT_Pin|LCD_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(SPI1_CS_GPIO_Port, SPI1_CS_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8|GPIO_PIN_9|SPI1_CS_Pin|GPIO_PIN_7, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : CPT_RST_Pin CPT_INT_Pin LCD_RST_Pin */
   GPIO_InitStruct.Pin = CPT_RST_Pin|CPT_INT_Pin|LCD_RST_Pin;
@@ -982,72 +980,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   HAL_GPIO_Init(INPUT_CURRENT_ADC_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : SPI1_CS_Pin */
-  GPIO_InitStruct.Pin = SPI1_CS_Pin;
+  /*Configure GPIO pins : PD8 PD9 SPI1_CS_Pin PD7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9|SPI1_CS_Pin|GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(SPI1_CS_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
-}
-
-/* FSMC initialization function */
-static void MX_FSMC_Init(void)
-{
-
-  /* USER CODE BEGIN FSMC_Init 0 */
-
-  /* USER CODE END FSMC_Init 0 */
-
-  FSMC_NORSRAM_TimingTypeDef Timing = {0};
-
-  /* USER CODE BEGIN FSMC_Init 1 */
-
-  /* USER CODE END FSMC_Init 1 */
-
-  /** Perform the SRAM1 memory initialization sequence
-  */
-  hsram1.Instance = FSMC_NORSRAM_DEVICE;
-  hsram1.Extended = FSMC_NORSRAM_EXTENDED_DEVICE;
-  /* hsram1.Init */
-  hsram1.Init.NSBank = FSMC_NORSRAM_BANK1;
-  hsram1.Init.DataAddressMux = FSMC_DATA_ADDRESS_MUX_DISABLE;
-  hsram1.Init.MemoryType = FSMC_MEMORY_TYPE_SRAM;
-  hsram1.Init.MemoryDataWidth = FSMC_NORSRAM_MEM_BUS_WIDTH_16;
-  hsram1.Init.BurstAccessMode = FSMC_BURST_ACCESS_MODE_DISABLE;
-  hsram1.Init.WaitSignalPolarity = FSMC_WAIT_SIGNAL_POLARITY_LOW;
-  hsram1.Init.WrapMode = FSMC_WRAP_MODE_DISABLE;
-  hsram1.Init.WaitSignalActive = FSMC_WAIT_TIMING_BEFORE_WS;
-  hsram1.Init.WriteOperation = FSMC_WRITE_OPERATION_ENABLE;
-  hsram1.Init.WaitSignal = FSMC_WAIT_SIGNAL_DISABLE;
-  hsram1.Init.ExtendedMode = FSMC_EXTENDED_MODE_DISABLE;
-  hsram1.Init.AsynchronousWait = FSMC_ASYNCHRONOUS_WAIT_DISABLE;
-  hsram1.Init.WriteBurst = FSMC_WRITE_BURST_DISABLE;
-  /* Timing */
-  Timing.AddressSetupTime = 15;
-  Timing.AddressHoldTime = 15;
-  Timing.DataSetupTime = 255;
-  Timing.BusTurnAroundDuration = 15;
-  Timing.CLKDivision = 16;
-  Timing.DataLatency = 17;
-  Timing.AccessMode = FSMC_ACCESS_MODE_A;
-  /* ExtTiming */
-
-  if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
-  {
-    Error_Handler( );
-  }
-
-  /** Disconnect NADV
-  */
-
-  __HAL_AFIO_FSMCNADV_DISCONNECTED();
-
-  /* USER CODE BEGIN FSMC_Init 2 */
-
-  /* USER CODE END FSMC_Init 2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -1057,10 +998,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   LDR_val[1] = adc_data[11];
   LDR_val[2] = adc_data[12];
   LDR_val[3] = adc_data[13];
-  CUR_IN = 4096;
+  // CUR_IN = 4096;
+  CUR_IN = 0;
   for (int i = 0; i < 8; ++i) {
-    CUR_IN = CUR_IN < adc_data[i] ? CUR_IN : adc_data[i];
+    // CUR_IN = CUR_IN < adc_data[i] ? CUR_IN : adc_data[i];
+    CUR_IN += adc_data[i];
   }
+  CUR_IN /= 8;
   SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
   SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
   MPPT_calculate(adc_data[8], CUR_IN, adc_data[9], 0, &(TIM1->CCR1));

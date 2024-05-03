@@ -7,8 +7,8 @@ int prev_VOL_OUT = 0;
 int prev_CUR_OUT = 0;
 int prev_PWR_OUT = 0;
 uint32_t prev_PWM_OUTPUT[2] = {0, 0};
-int max_output_voltage = 1727; // corresponds to 12.6V
-uint32_t max_PWM_OUTPUT = 20;
+int max_output_voltage = 1850; // corresponds to 12.6V
+uint32_t max_PWM_OUTPUT = 2;
 
 void MPPT_calculate(int VOL_IN, int CUR_IN, int VOL_OUT, int CUR_OUT, uint32_t *PWM_OUTPUT) {
     // MPPT algorithm
@@ -30,6 +30,7 @@ void MPPT_calculate(int VOL_IN, int CUR_IN, int VOL_OUT, int CUR_OUT, uint32_t *
     }
     if (VOL_OUT > max_output_voltage) {
         _PWM_OUTPUT -= 2;
+        HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_SET);
     }
     if (_PWM_OUTPUT > (int)max_PWM_OUTPUT) {
         _PWM_OUTPUT = max_PWM_OUTPUT;
