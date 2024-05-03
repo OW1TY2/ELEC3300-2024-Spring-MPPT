@@ -12,6 +12,7 @@ uint32_t max_PWM_OUTPUT = 30;
 
 void MPPT_calculate(int VOL_IN, int CUR_IN, int VOL_OUT, int CUR_OUT, uint32_t *PWM_OUTPUT) {
     // MPPT algorithm
+    VOL_IN += CUR_IN * 0.01; // compensate for voltage drop
     
     long PWR_IN = VOL_IN * CUR_IN;
     // long PWR_OUT = VOL_OUT * CUR_OUT;

@@ -153,7 +153,7 @@ int main(void)
   while (1)
   {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 14);
-    HAL_Delay(1);
+    HAL_Delay(2);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET);
   
     /* USER CODE END WHILE */
@@ -312,6 +312,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_11;
   sConfig.Rank = ADC_REGULAR_RANK_9;
+  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -321,6 +322,7 @@ static void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_12;
   sConfig.Rank = ADC_REGULAR_RANK_10;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -997,7 +999,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   LDR_val[0] = adc_data[10] * 1.63f;
   LDR_val[1] = adc_data[11];
   LDR_val[2] = adc_data[12];
-  LDR_val[3] = adc_data[13];
+  LDR_val[3] = adc_data[13] * 0.5f;
   // CUR_IN = 4096;
   CUR_IN = 0;
   for (int i = 0; i < 8; ++i) {
@@ -1006,7 +1008,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   }
   CUR_IN /= 8;
   SOLAR_TRACKER_track(LDR_val[0] + LDR_val[1], LDR_val[2] + LDR_val[3], &(TIM3->CCR1), &(TIM3->CCR2));
-  SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[4], &(TIM4->CCR3), &(TIM4->CCR4));
+  SOLAR_TRACKER_track(LDR_val[1] + LDR_val[2], LDR_val[0] + LDR_val[3], &(TIM4->CCR3), &(TIM4->CCR4));
   MPPT_calculate(adc_data[8], CUR_IN, adc_data[9], 0, &(TIM1->CCR1));
 }
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
