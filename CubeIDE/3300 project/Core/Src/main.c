@@ -62,6 +62,7 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+uint32_t tickstart;
 volatile uint16_t adc_data[14];
 long long CUR_IN;
 int16_t LDR_val[4];
@@ -153,7 +154,12 @@ int main(void)
   while (1)
   {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 14);
-    HAL_Delay(2);
+    // HAL_Delay(2);
+    
+    tickstart = HAL_GetTick();
+    while ((HAL_GetTick() - tickstart) < 2)
+    {
+    }
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET);
   
     /* USER CODE END WHILE */
