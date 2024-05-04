@@ -1,4 +1,6 @@
 #include "mppt.h"
+#include "ssd1306.h"
+#include "ssd1306_fonts.h"
 
 int prev_VOL_IN = 0;
 int prev_CUR_IN = 0;
@@ -31,6 +33,10 @@ void MPPT_calculate(int VOL_IN, int CUR_IN, int VOL_OUT, int CUR_OUT, uint32_t *
     }
     if (VOL_OUT > max_output_voltage) {
         _PWM_OUTPUT -= 2;
+        char message[30] = "Max V_Out";
+        ssd1306_SetCursor(2, 18);
+        ssd1306_WriteString(message, Font_11x18, Black);
+        ssd1306_UpdateScreen();
         HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_SET);
     }
     if (_PWM_OUTPUT > (int)max_PWM_OUTPUT) {

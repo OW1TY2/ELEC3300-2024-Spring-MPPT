@@ -23,6 +23,8 @@
 /* USER CODE BEGIN Includes */
 #include "mppt.h"
 #include "solar_tracker.h"
+#include "ssd1306.h"
+#include "ssd1306_fonts.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -147,6 +149,14 @@ int main(void)
   //   TIM1->CCR1 = counter++;
   //   counter %= 30;
   // }
+  ssd1306_Init();
+  ssd1306_Fill(White);
+  ssd1306_SetCursor(2,0);
+  ssd1306_WriteString("ELEC3300 Solar", Font_11x18, Black);
+  ssd1306_SetCursor(2, 18*2);
+  ssd1306_WriteString("Group 12", Font_11x18, Black);
+  ssd1306_UpdateScreen();
+  HAL_Delay(1000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -155,13 +165,16 @@ int main(void)
   {
     HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_data, 14);
     // HAL_Delay(2);
-    
+    // ssd1306_SetCursor(2, 18);
+    // ssd1306_WriteString(message, Font_11x18, Black);
+    // ssd1306_UpdateScreen();
     tickstart = HAL_GetTick();
     while ((HAL_GetTick() - tickstart) < 2)
     {
     }
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7, GPIO_PIN_RESET);
-  
+    ssd1306_Fill(White);
+    ssd1306_UpdateScreen();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
