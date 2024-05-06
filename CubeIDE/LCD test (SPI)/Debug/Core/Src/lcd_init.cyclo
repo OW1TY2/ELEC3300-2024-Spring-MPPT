@@ -1,0 +1,3 @@
+../Core/Src/lcd_init.c:10:6:LCD_Address_Set	1
+../Core/Src/lcd_init.c:28:6:LCD_Fill	3
+../Core/Src/lcd_init.c:42:6:LCD_Init	1

@@ -1,0 +1,3 @@
+../Core/Src/dma.c:6:6:MYDMA_Config	1
+../Core/Src/dma.c:22:6:MYDMA_Config1	1
+../Core/Src/dma.c:45:6:MYDMA_Enable	1

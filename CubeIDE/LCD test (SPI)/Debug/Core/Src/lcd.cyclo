@@ -1,0 +1,15 @@
+../Core/Src/lcd.c:14:6:LCD_DrawPoint	1
+../Core/Src/lcd.c:28:6:LCD_DrawLine	9
+../Core/Src/lcd.c:71:6:LCD_DrawRectangle	1
+../Core/Src/lcd.c:87:6:Draw_Circle	3
+../Core/Src/lcd.c:119:6:LCD_ShowChinese	6
+../Core/Src/lcd.c:143:6:LCD_ShowChinese12x12	11
+../Core/Src/lcd.c:201:6:LCD_ShowChinese16x16	11
+../Core/Src/lcd.c:259:6:LCD_ShowChinese24x24	11
+../Core/Src/lcd.c:316:6:LCD_ShowChinese32x32	11
+../Core/Src/lcd.c:374:6:LCD_ShowChar	12
+../Core/Src/lcd.c:429:6:LCD_ShowString	2
+../Core/Src/lcd.c:445:5:mypow	2
+../Core/Src/lcd.c:463:6:LCD_ShowIntNum	5
+../Core/Src/lcd.c:495:6:LCD_ShowFloatNum1	3
+../Core/Src/lcd.c:523:6:LCD_ShowPicture	6

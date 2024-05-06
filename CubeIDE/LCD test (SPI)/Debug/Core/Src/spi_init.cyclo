@@ -1,0 +1,6 @@
+../Core/Src/spi_init.c:5:6:SPI1_Init	1
+../Core/Src/spi_init.c:37:6:LCD_GPIOInit	1
+../Core/Src/spi_init.c:74:6:LCD_WR_Bus	1
+../Core/Src/spi_init.c:87:6:LCD_WR_REG	1
+../Core/Src/spi_init.c:99:6:LCD_WR_DATA8	1
+../Core/Src/spi_init.c:109:6:LCD_WR_DATA	1
