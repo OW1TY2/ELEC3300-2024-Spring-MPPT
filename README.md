@@ -1,7 +1,7 @@
 # ELEC3300-2024-Spring-MPPT
 Based on STM32F103VET6, a system taht integrated both Maximum Power Point Tracking (MPPT) and Solar Tracking.
-![5photo1](https://github.com/user-attachments/assets/a19cc615-4b07-4b5b-a980-a2963eb89614)
-Physical demo of Engineering Sample
+![5photo2](https://github.com/user-attachments/assets/6118bfd9-76e7-42ec-9547-ad0900caf86f)
+Photo of Engineering Sample Board
 
 
 Solar tracking based on ADC readings from 4 Light Dependent Resistors(LDR)
